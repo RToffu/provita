@@ -1,6 +1,5 @@
 /*
  *
- *	BEECROWD - 1031 - Power Crisis
  *
  */
 
