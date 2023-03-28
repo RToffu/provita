@@ -1,5 +1,5 @@
 /*
- *	BEECROWD - 1030
+ *	
  *
  */
 #include <stdio.h>
