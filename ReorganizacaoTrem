@@ -1,0 +1,65 @@
+import java.util.Scanner;
+import java.util.Stack;
+
+public class ReorganizacaoTrem {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            int n = scanner.nextInt();
+            if (n == 0) {
+                break;
+            }
+
+            while (true) {
+                int[] perm = new int[n];
+                for (int i = 0; i < n; i++) {
+                    perm[i] = scanner.nextInt();
+                }
+
+                if (perm[0] == 0) {
+                    break;
+                }
+
+                boolean possible = checkReorganization(n, perm);
+                System.out.println(possible ? "Yes" : "No");
+            }
+
+            System.out.println();
+        }
+    }
+
+    private static boolean checkReorganization(int n, int[] perm) {
+        Stack<Integer> station = new Stack<>();
+        int nextCoach = 1;
+
+        for (int i = 0; i < n; i++) {
+            int desiredCoach = perm[i];
+
+            // Descarrega os vagões do topo da estação, se possível
+            while (!station.empty() && station.peek() == desiredCoach) {
+                station.pop();
+                desiredCoach = (desiredCoach % n) + 1;
+            }
+
+            // Verifica se o vagão desejado é o próximo a entrar na estação
+            if (nextCoach == desiredCoach) {
+                nextCoach = (nextCoach % n) + 1;
+            }
+            // Caso contrário, coloca o vagão na estação
+            else {
+                station.push(nextCoach);
+                nextCoach = (nextCoach % n) + 1;
+                i--; // Repete o loop para verificar novamente o vagão atual
+            }
+        }
+
+        // Verifica se todos os vagões foram descarregados corretamente
+        while (!station.empty() && station.peek() == nextCoach) {
+            station.pop();
+            nextCoach = (nextCoach % n) + 1;
+        }
+
+        return station.empty();
+    }
+}
